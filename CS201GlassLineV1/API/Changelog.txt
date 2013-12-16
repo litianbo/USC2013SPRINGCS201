@@ -1,0 +1,19 @@
+Changelog for Glass Line Factory GUI for USC's CSCI 201.
+	By Monroe Ekilah
+	3/8/2013 (Most of these bugs/features were fixed/added in Spring 2012)
+	Original code/API by Jonathan Sun and Brehon Humphrey. 
+-------------------------------------------
+
+GUIBreakout.java, GUIComponentOnline.java, GUIComponentOffline.java, GUIManualBreakout.java:
+	- movePartsIn() does not assume that as soon as the part is loaded onto the component that the animation should start. This assumption was made in the past. Now, the part is loaded, and the component goes to the IDLE state, fires WORKSTATION_LOAD_FINISHED, and waits for the agent to tell them whether or not to animate. This change allows every component to be selected with the glass recipe - before, all the Online components were always used on each piece of glass (recipe could not determine whether or not this happened).
+	- movePartsOut() or eventFired() (depending on which file) fires WORKSTATION_RELEASE_FINISHED when the part is fully removed from the component, as the original API said it would.
+
+
+DisplayPanel.java:
+	- setupComponents() has a line at the very bottom that activates a GUI "demo" or "test" when the factory starts. This line has been left there, but there are comments and a print statement to make it clear that this is happening.
+
+GUITestSM.java
+	- Changed to reflect updates to components, so that they follow the API and everything as described above. Also added the truck animation to this test.
+
+GUITruck.java:
+	- Truck logic fixed so the truck actually leaves the screen rather than "scooting" one pixel when dumping parts, and the part icon does not disappear until it is supposed to (it used to disappear as soon as it was loaded, but now it disappears when the truck is offscreen). Truck speed variables (including a min/max) and a setter were also made for clarity/convenience. These changes also required that a setLocation method was made for the subclass GUITruck, since it needs to know where it started from when returning from an unload trip.
